@@ -56,12 +56,23 @@ def venditaMinA(tVendite):
 def venditaPer(tVendite):
     totA=0
     totB=0
+    tot=0
+    for reparto,prodotto in tVendite:
+        for prod,pagamento in prodotto:
+            for tipPagamento,importo in pagamento:
+                tot+=importo
     for reparto,prodotto in tVendite:
         if reparto=="RepartoA":
             for prod,pagamento in prodotto:
                 for tipPagamento,importo in pagamento:
                     totA+=importo
-        if reparto=="RepartoB"
+        if reparto=="RepartoB":
+            for prod,pagamento in prodotto:
+                for tipPagamento,importo in pagamento:
+                    totB+=importo
+    print("Totale: ",tot)
+    print("Reparto A: ",totA*100/tot)
+    print("Reparto B: ",totB*100/tot)
 
 tupla_vendite = (
     (("RepartoA","Informatica"),("Prodotto A", ("contanti",1000))),
