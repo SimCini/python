@@ -1,8 +1,9 @@
 def media_globale(tVendite):
     sommaImp=0
     c=0
+    '''
     for vendite in tVendite:
-        (reparto,tipo),(prodotto,(pagamento,importo))=vendite
+        #(reparto,tipo),(prodotto,(pagamento,importo))=vendite
         # print(datiProdotto)
         # print(datiProdotto[0])
         # print(datiProdotto[1][0])
@@ -11,12 +12,17 @@ def media_globale(tVendite):
             for tipo,importo in paga:
                 sommaImp+=importo
                 c+=1
+    '''
+    for reparto,(prodotto,(tipPagamento,importo)) in tVendite:
+        sommaImp+=importo
+        c+=1  
     media = sommaImp/c
     return(media)
 
 def media(tVendite, cat, tPagamento):
     sommaV=0
     c=0
+    '''
     for reparto,prodotto in tVendite:
         for rep,categoria in reparto:
             if categoria==cat:
@@ -25,51 +31,51 @@ def media(tVendite, cat, tPagamento):
                         if tipPagamento==tPagamento:
                             sommaV+=importo
                             c+=1
-    media = sommaV/c
-    return(media)
+    ''' 
+    for (reparto,categoria),(prodotto,(tipPagamento,importo)) in tVendite:
+        if categoria==cat and tipPagamento==tPagamento:
+            sommaV+=importo
+            c+=1                       
+    if (c>0):
+        media = sommaV/c
+        return(media)
+    else:
+        return("Errore: nessun elemento trovato")
 
 def venditaMax(tVendite):
-    max=0
+    importi = []
     prodottiMax=[]
-    for reparto,prodotto in tVendite:
-        for prod,pagamento in prodotto:
-            for tipPagamento,importo in pagamento:
-                if importo>max:
-                    max=importo
-    for reparto,prodotto in tVendite:
-        for prod,pagamento in prodotto:
-            for tipPagamento,importo in pagamento:
-                if importo==max:
-                    prodottiMax.append(prod)
-    return (max,(prodottiMax))
+    for (reparto,categoria),(prodotto,(tipPagamento,importo)) in tVendite:
+        importi.append(importo)
+    impMax=max(importi)
+    for (reparto,categoria),(prodotto,(tipPagamento,importo)) in tVendite:
+        if importo==impMax:
+            prodottiMax.append(prodotto)
+    return (impMax,(prodottiMax))
 
 def venditaMinA(tVendite):
-    min=0
-    for reparto,prodotto in tVendite:
+    importiA = []
+    prodottiMin=[]
+    for (reparto,categoria),(prodotto,(tipPagamento,importo)) in tVendite:
         if reparto=="RepartoA":
-            for prod,pagamento in prodotto:
-                for tipPagamento,importo in pagamento:
-                    if importo<min:
-                        min=importo
-    return (min)
+            importiA.append(importo)
+    impMinA = min(importiA)
+    for (reparto,categoria),(prodotto,(tipPagamento,importo)) in tVendite:
+        if importo==impMinA:
+            prodottiMin.append(prodotto)
+    return (impMinA,(prodottiMin))
 
 def venditaPer(tVendite):
     totA=0
     totB=0
     tot=0
-    for reparto,prodotto in tVendite:
-        for prod,pagamento in prodotto:
-            for tipPagamento,importo in pagamento:
-                tot+=importo
-    for reparto,prodotto in tVendite:
-        if reparto=="RepartoA":
-            for prod,pagamento in prodotto:
-                for tipPagamento,importo in pagamento:
-                    totA+=importo
+    for (reparto,categoria),(prodotto,(tipPagamento,importo)) in tVendite:
+        tot+=importo
+    for (reparto,categoria),(prodotto,(tipPagamento,importo)) in tVendite:
+        if reparto=="RepartoA":    
+            totA+=importo
         if reparto=="RepartoB":
-            for prod,pagamento in prodotto:
-                for tipPagamento,importo in pagamento:
-                    totB+=importo
+            totB+=importo
     print("Totale: ",tot)
     print("Reparto A: ",totA*100/tot)
     print("Reparto B: ",totB*100/tot)
@@ -89,9 +95,12 @@ print("Media globale: ",media_globale(tupla_vendite))
 
 categoria = input("Inserisci categoria: ")
 tPagamento = input("Inserisci tipologia pagamento (contanti / carta di credito): ")
+
+while(tPagamento!="contanti" and tPagamento!="carta di credito" and tPagamento!="N/D"):
+    tPagamento = input("Reinserisci tipologia pagamento (contanti / carta di credito): ")
 print("Importo medio dei dati scelti: ",media(tupla_vendite,categoria,tPagamento))
 
 print("Vendita/e Massima/e: ",venditaMax(tupla_vendite))
-print("Vendita/e Minima/e nel reparto A: ",venditaMinA(tupla_vendite))
+print(f"Vendita/e Minima/e nel reparto A: {venditaMinA(tupla_vendite):.2f} %")
 
-print("Percentuale vendite per reparto: ",venditaPer(tupla_vendite))
+print(f"Percentuale vendite per reparto: {venditaPer(tupla_vendite):.2f} %")
