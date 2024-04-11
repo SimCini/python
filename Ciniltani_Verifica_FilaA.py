@@ -95,13 +95,13 @@ def aggiungi(targa):
     while (sett1<0):
       sett1 = int(input("Inserisci n noleggi prima settimana: "))
     sett2 = int(input("Inserisci n noleggi seconda settimana: "))
-    while (sett1<0):
+    while (sett2<0):
       sett2 = int(input("Inserisci n noleggi seconda settimana: "))
     sett3 = int(input("Inserisci n noleggi terza settimana: "))
-    while (sett1<0):
+    while (sett3<0):
       sett3 = int(input("Inserisci n noleggi terza settimana: "))
     sett4 = int(input("Inserisci n noleggi quarta settimana: "))
-    while (sett1<0):
+    while (sett4<0):
       sett4 = int(input("Inserisci n noleggi quarta settimana: "))
     noleggiSettimanali = (sett1,sett2,sett3,sett4)
 
